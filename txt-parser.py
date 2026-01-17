@@ -8,20 +8,6 @@ rawText = open("text.txt", "r")
 splitText = rawText.read().split("\n")
 
 
-
-# active = True
-
-# while active:
-#     active = False
-#     for index in range(len(splitText)):
-#         print(index)
-#         if splitText[index]=="":
-#             active = True
-#             print(splitText[index])
-#             splitText.pop(index)
-#             break
-#         print(splitText)
-
 emptyList = []
 
 # lines start at 1, index at 0
