@@ -38,5 +38,7 @@ print(splitText)
 for index in range(len(splitText)):
     if re.match("^[0-9]{2}\.[0-9]{2}\.[0-9]{4}", splitText[index]):
         print(splitText[index][:10])
+    elif re.match("^[0-9]{2}:[0-9]{2}\.", splitText[index]):
+        print(splitText[index][:5])
     else:
         print("no date here")
