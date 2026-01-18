@@ -1,13 +1,15 @@
-06.12.2025
+[06.12.2025]
 21:58. lorem ipsum
+lorem following text
 22:06. lorem ipsum 2
+23:19. lorem ipsum 2.1
 
 
 
-07.12.2025
+[07/12/2025]
 14:26. lorem ipsum 3
 
 
-08.12.2025
+[08/12/2025]
 13:41. lorem ipsum 4
 

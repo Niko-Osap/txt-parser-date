@@ -24,21 +24,31 @@ for empty in emptyList:
 dateDict = {}
 
 for index in range(len(splitText)):
-    if re.match("^[0-9]{2}\.[0-9]{2}\.[0-9]{4}", splitText[index]):
-        tempDate = splitText[index]
+    if re.match("^\[[0-9]{2}[\.\/][0-9]{2}[\.\/][0-9]{4}\]", splitText[index]):
+        rawDate = splitText[index][1:-1]
+        tempDate = rawDate[0:2] + "/" + rawDate[3:5] + "/" + rawDate[6:10]
         dateDict[tempDate] = {}
     elif re.match("^[0-9]{2}:[0-9]{2}\.", splitText[index]):
         try:
             # takes previous line to check for a date to insert the current line's time into
-            dateDict[splitText[index-1][:10]][splitText[index][:5]] = splitText[index][6:]
+            dateNameRaw = splitText[index-1][1:-1]
+            tempDate = dateNameRaw[0:2] + "/" + dateNameRaw[3:5] + "/" + dateNameRaw[6:10]
+            dateDict[tempDate][splitText[index][:5]] = splitText[index][6:]
         except IndexError:
             print(f"ERROR: Index out of bounds, line {index}")
         except:
             reverseIndexCount = 2
             while True:
                 try:
-                    if re.match("^[0-9]{2}\.[0-9]{2}\.[0-9]{4}", splitText[index-reverseIndexCount]):
-                        dateDict[splitText[index-reverseIndexCount][:10]][splitText[index][:5]] = splitText[index][6:]
+                    # checks for date in prev lines
+                    if re.match("^\[[0-9]{2}[\.\/][0-9]{2}[\.\/][0-9]{4}\]", splitText[index-reverseIndexCount]):
+                        # takes date from that line and inserts time (timeStamp) and associated text (timeText) into date dictionary of found date
+                        timeStamp = splitText[index][:5]
+                        timeText = splitText[index][6:]
+                        # clean and standardize date into "12/34/5678"
+                        dateNameRaw = splitText[index-reverseIndexCount][1:-1]
+                        tempDate = dateNameRaw[0:2] + "/" + dateNameRaw[3:5] + "/" + dateNameRaw[6:10]
+                        dateDict[tempDate][timeStamp] = timeText
                         break
                     reverseIndexCount+=1
                 except IndexError:
@@ -58,3 +68,7 @@ for index in range(len(splitText)):
 dateJson = json.dumps(dateDict)
 
 print(dateJson)
+
+jsonFile = open("text.json", "w")
+
+jsonFile.write(dateJson)
