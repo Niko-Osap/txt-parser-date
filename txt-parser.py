@@ -25,13 +25,13 @@ dateDict = {}
 
 for index in range(len(splitText)):
     if re.match("^\[[0-9]{2}[\.\/][0-9]{2}[\.\/][0-9]{4}\]", splitText[index]):
-        rawDate = splitText[index][1:-1]
+        rawDate = splitText[index].strip("[]")
         tempDate = rawDate[0:2] + "/" + rawDate[3:5] + "/" + rawDate[6:10]
         dateDict[tempDate] = {}
     elif re.match("^[0-9]{2}:[0-9]{2}\.", splitText[index]):
         try:
             # takes previous line to check for a date to insert the current line's time into
-            dateNameRaw = splitText[index-1][1:-1]
+            dateNameRaw = splitText[index-1].strip("[]")
             tempDate = dateNameRaw[0:2] + "/" + dateNameRaw[3:5] + "/" + dateNameRaw[6:10]
             dateDict[tempDate][splitText[index][:5]] = splitText[index][6:]
         except IndexError:
@@ -46,7 +46,7 @@ for index in range(len(splitText)):
                         timeStamp = splitText[index][:5]
                         timeText = splitText[index][6:]
                         # clean and standardize date into "12/34/5678"
-                        dateNameRaw = splitText[index-reverseIndexCount][1:-1]
+                        dateNameRaw = splitText[index-reverseIndexCount].strip("[]")
                         tempDate = dateNameRaw[0:2] + "/" + dateNameRaw[3:5] + "/" + dateNameRaw[6:10]
                         dateDict[tempDate][timeStamp] = timeText
                         break
